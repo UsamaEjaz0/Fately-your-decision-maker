@@ -1,45 +1,40 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:haha_decision_maker/Models/choice_model.dart';
 import 'package:haha_decision_maker/Theme/colors.dart';
 import '../Theme/assets.dart';
 import '../Utils/app_config.dart';
 
 // ignore: must_be_immutable
 class OptionDialog extends StatefulWidget {
-  String title, desc;
+  String desc;
+  Function save;
+  bool edit;
+  int choiceNum;
+  int itemIndex;
 
-  OptionDialog({title, desc}) {
-    this.title = title;
+  OptionDialog({choiceNum, desc, save, edit, itemIndex}) {
+    this.edit = edit;
+    this.choiceNum = choiceNum;
     this.desc = desc;
+    this.save = save;
+    this.itemIndex = itemIndex;
   }
 
   @override
-  _OptionDialogState createState() => _OptionDialogState(desc);
+  _OptionDialogState createState() => _OptionDialogState();
 }
 
 class _OptionDialogState extends State<OptionDialog> {
-  // bool _isEditingText = false;
-  // TextEditingController _editingController;
-  // String initialText;
+  var textController = new TextEditingController();
 
-  _OptionDialogState(desc){
-    // initialText = desc;
-  }
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _editingController = TextEditingController(text: initialText);
-  // }
-  // @override
-  // void dispose() {
-  //   _editingController.dispose();
-  //   super.dispose();
-  // }
+
+
 
   @override
   Widget build(BuildContext context) {
-
+    textController.text = widget.desc;
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 0),
       shape: RoundedRectangleBorder(
@@ -50,6 +45,7 @@ class _OptionDialogState extends State<OptionDialog> {
       child: contentBox(context),
     );
   }
+
 
   contentBox(context) {
     String value = "";
@@ -75,10 +71,11 @@ class _OptionDialogState extends State<OptionDialog> {
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(
                             SizeConfig.safeBlockHorizontal * 3.2,
-                            SizeConfig.safeBlockVertical * 1.5, 0,
+                            SizeConfig.safeBlockVertical * 1.5,
+                            0,
                             SizeConfig.safeBlockVertical * 2),
                         child: Text(
-                          widget.title,
+                          "Option Number ${widget.choiceNum}",
                           style: TextStyle(
                             fontFamily: "Montserrat",
                             fontStyle: FontStyle.normal,
@@ -102,7 +99,6 @@ class _OptionDialogState extends State<OptionDialog> {
                       },
                     ),
                   ),
-
                 ],
               ),
               Container(
@@ -111,26 +107,26 @@ class _OptionDialogState extends State<OptionDialog> {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(
                       SizeConfig.safeBlockHorizontal * 2.5,
-                      SizeConfig.safeBlockVertical * 1.5, 0, SizeConfig.safeBlockVertical * 1.5),
-                  child: TextField (
+                      SizeConfig.safeBlockVertical * 0,
+                      0,
+                      SizeConfig.safeBlockVertical * 1.5),
+                  child: TextField(
+                    controller: textController,
                     maxLines: null,
                     style: TextStyle(
-                          fontFamily: "Montserrat",
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 13.0,
-                          color: Color(0xff717171),
-                        ),
+                      fontFamily: "Montserrat",
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 13.0,
+                      color: Color(0xff717171),
+                    ),
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Write a choice...'
-                    ),
+                        hintText: 'Write a choice...'),
                     onChanged: (text) {
                       value = text;
-                      print(value);
                     },
                   ),
-
                 ),
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
@@ -143,17 +139,28 @@ class _OptionDialogState extends State<OptionDialog> {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(
                       0,
-                      SizeConfig.safeBlockVertical * 1.5, SizeConfig.safeBlockHorizontal * 2.5,0),
+                      SizeConfig.safeBlockVertical * 1.5,
+                      SizeConfig.safeBlockHorizontal * 2.5,
+                      0),
                   child: Container(
                     width: SizeConfig.safeBlockHorizontal * 28,
                     height: SizeConfig.safeBlockVertical * 5.5,
                     child: TextButton(
-
-                        onPressed: (){},
-                        child: Text("Save", style: TextStyle(
-                          color: whiteColor
-                        ),),
-                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(purpleColor)),
+                      onPressed: () {
+                        if (widget.edit){
+                          widget.save(widget.itemIndex, Choice(choiceNum: widget.choiceNum, desc: value));
+                        }else {
+                          widget.save(Choice(choiceNum: widget.choiceNum, desc: value));
+                        }
+                        Navigator.pop(context, true);
+                      },
+                      child: Text(
+                        "Save",
+                        style: TextStyle(color: whiteColor),
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(purpleColor)),
                     ),
                   ),
                 ),
