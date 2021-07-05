@@ -16,17 +16,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: DecisionProcessing(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class DecisionProcessing extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _DecisionProcessingState createState() => _DecisionProcessingState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _DecisionProcessingState extends State<DecisionProcessing> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   VideoPlayerController controller;
   Future<void> futureController;
