@@ -8,6 +8,8 @@ import 'package:haha_decision_maker/Widgets/choice_item.dart';
 import 'package:haha_decision_maker/Widgets/custom_decide_button.dart';
 import 'package:haha_decision_maker/Widgets/custom_name_text.dart';
 
+import 'decision_processing.dart';
+
 class HomePageWidget extends StatefulWidget {
   HomePageWidget({Key key}) : super(key: key);
 
@@ -183,7 +185,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   child: CustomButton(
                     "Decide Your Fate",
                     onTap: () {
-                      print(":(");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DecisionProcessing()),
+                      );
                     },
                   ),
                 )

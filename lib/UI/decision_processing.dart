@@ -1,32 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
+class DecisionProcessing extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fately',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(),
-    );
-  }
+  _DecisionProcessingState createState() => _DecisionProcessingState();
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class _DecisionProcessingState extends State<DecisionProcessing> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   VideoPlayerController controller;
   Future<void> futureController;
@@ -126,8 +108,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 );
                               } else {
                                 return Center(
-                                    // child: CircularProgressIndicator(),
-                                    );
+                                  // child: CircularProgressIndicator(),
+                                );
                               }
                             },
                           ),
