@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-Color scaffoldBackgroundColor = Colors.white;
+Color purpleColor = const Color(0xff7B76ED);
 Color blackColor = Colors.black;
-Color hintColor = Colors.grey[400];
+Color whiteColor = Colors.white;
+Color greyColor = const Color(0xffC4C4C4);
 Color transparentColor = Colors.transparent;
-Color cartCountBackgroundColor = Colors.red;
-Color newNotificationColor = Colors.green;
