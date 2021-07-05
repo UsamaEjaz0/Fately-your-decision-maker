@@ -27,7 +27,7 @@ class CustomButton extends StatelessWidget {
         Align(
           child: Container(
             width: SizeConfig.safeBlockHorizontal * 95,
-            height: SizeConfig.safeBlockHorizontal * 10,
+            height: SizeConfig.safeBlockHorizontal * 11,
             decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.white,
@@ -42,20 +42,17 @@ class CustomButton extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                print("Hi");
+                onTap();
               },
-              child: Align(
-                alignment: Alignment.center,
-                child: Text('Decide Your Fate',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: "Montserrat",
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                  ),
-                  textAlign: TextAlign.center,
+              child: Text(this.text,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: "Montserrat",
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
                 ),
+
               ),
             ),
           ),
