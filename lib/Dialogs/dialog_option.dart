@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haha_decision_maker/Models/choice_model.dart';
@@ -71,7 +72,7 @@ class _OptionDialogState extends State<OptionDialog> {
                             0,
                             SizeConfig.safeBlockVertical * 2),
                         child: Text(
-                          "Option Number ${widget.choiceNum}",
+                          "Choice Number ${widget.choiceNum}",
                           style: TextStyle(
                             fontFamily: "Montserrat",
                             fontStyle: FontStyle.normal,
@@ -143,14 +144,37 @@ class _OptionDialogState extends State<OptionDialog> {
                     height: SizeConfig.safeBlockVertical * 5.5,
                     child: TextButton(
                       onPressed: () {
-                        if (widget.edit) {
-                          widget.save(widget.itemIndex,
-                              Choice(choiceNum: widget.choiceNum, desc: value));
+                        if (value == "") {
+                          Flushbar(
+                            messageText: Text(
+                              "Cannot add an empty choice Kindly provide a choice",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: "Montserrat",
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14.0,
+                                color: whiteColor,
+                              ),
+                            ),
+                            duration: Duration(seconds: 2),
+                            flushbarStyle: FlushbarStyle.FLOATING,
+                            margin: EdgeInsets.all(90),
+                            borderRadius: BorderRadius.circular(8),
+                            backgroundColor: purpleColor,
+                          )..show(context);
                         } else {
-                          widget.save(
-                              Choice(choiceNum: widget.choiceNum, desc: value));
+                          if (widget.edit) {
+                            widget.save(
+                                widget.itemIndex,
+                                Choice(
+                                    choiceNum: widget.choiceNum, desc: value));
+                          } else {
+                            widget.save(Choice(
+                                choiceNum: widget.choiceNum, desc: value));
+                          }
+                          Navigator.pop(context, true);
                         }
-                        Navigator.pop(context, true);
                       },
                       child: Text(
                         "Save",
