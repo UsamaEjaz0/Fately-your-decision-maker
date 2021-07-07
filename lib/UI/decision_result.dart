@@ -178,21 +178,30 @@ class _DecisionResultState extends State<DecisionResult> {
                                               0,
                                               0,
                                             ),
-                                            child: Expanded(
-                                              flex: 1,
-                                              child: SingleChildScrollView(
-                                                child: Text(
-                                                  "${widget.selectedChoice.desc}",
-                                                  style: TextStyle(
-                                                    fontFamily: "Montserrat",
-                                                    fontStyle: FontStyle.normal,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 13.0,
-                                                    color: Color(0xff717171),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: SingleChildScrollView(
+                                                    child: Text(
+                                                      "${widget.selectedChoice.desc}",
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontSize: 13.0,
+                                                        color:
+                                                            Color(0xff717171),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
+                                              ],
                                             ),
                                           ),
                                           decoration: BoxDecoration(
