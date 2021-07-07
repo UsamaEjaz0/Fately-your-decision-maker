@@ -29,9 +29,6 @@ class OptionDialog extends StatefulWidget {
 class _OptionDialogState extends State<OptionDialog> {
   var textController = new TextEditingController();
 
-
-
-
   @override
   Widget build(BuildContext context) {
     textController.text = widget.desc;
@@ -46,7 +43,6 @@ class _OptionDialogState extends State<OptionDialog> {
     );
   }
 
-
   contentBox(context) {
     String value = "";
     SizeConfig().init(context);
@@ -54,7 +50,7 @@ class _OptionDialogState extends State<OptionDialog> {
       children: <Widget>[
         Container(
           width: SizeConfig.safeBlockHorizontal * 92,
-          height: SizeConfig.safeBlockVertical * 35,
+          height: SizeConfig.safeBlockVertical * 33.75,
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
             color: Colors.white,
@@ -147,10 +143,12 @@ class _OptionDialogState extends State<OptionDialog> {
                     height: SizeConfig.safeBlockVertical * 5.5,
                     child: TextButton(
                       onPressed: () {
-                        if (widget.edit){
-                          widget.save(widget.itemIndex, Choice(choiceNum: widget.choiceNum, desc: value));
-                        }else {
-                          widget.save(Choice(choiceNum: widget.choiceNum, desc: value));
+                        if (widget.edit) {
+                          widget.save(widget.itemIndex,
+                              Choice(choiceNum: widget.choiceNum, desc: value));
+                        } else {
+                          widget.save(
+                              Choice(choiceNum: widget.choiceNum, desc: value));
                         }
                         Navigator.pop(context, true);
                       },

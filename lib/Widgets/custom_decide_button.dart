@@ -17,11 +17,16 @@ class CustomButton extends StatelessWidget {
       children: [
         Align(
           alignment: Alignment(0, 0),
-          child: Image.asset(
-            Assets.buttonTexture,
-            width: SizeConfig.safeBlockHorizontal * 95,
-            height: SizeConfig.safeBlockHorizontal * 10,
-            fit: BoxFit.cover,
+          child: Container(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Image.asset(
+                Assets.buttonTexture,
+                width: SizeConfig.safeBlockHorizontal * 95,
+                height: SizeConfig.safeBlockHorizontal * 10,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ),
         Align(
@@ -33,26 +38,29 @@ class CustomButton extends StatelessWidget {
                   color: Colors.white,
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(8))),
-            child: TextButton(
-              style: ButtonStyle(
-                overlayColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    return Colors.black.withOpacity(0.4);
-                  },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: TextButton(
+                style: ButtonStyle(
+                  overlayColor: MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) {
+                      return Colors.black.withOpacity(0.4);
+                    },
+                  ),
                 ),
-              ),
-              onPressed: () {
-                onTap();
-              },
-              child: Text(this.text,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: "Montserrat",
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
+                onPressed: () {
+                  onTap();
+                },
+                child: Text(
+                  this.text,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: "Montserrat",
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                  ),
                 ),
-
               ),
             ),
           ),

@@ -1,9 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:haha_decision_maker/Models/choice_model.dart';
+import 'package:haha_decision_maker/UI/decision_result.dart';
+import 'package:haha_decision_maker/Widgets/custom_name_text.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class DecisionProcessing extends StatefulWidget {
+  final Choice selectedChoice;
+  const DecisionProcessing(this.selectedChoice);
+
   @override
   _DecisionProcessingState createState() => _DecisionProcessingState();
 }
@@ -12,6 +20,8 @@ class _DecisionProcessingState extends State<DecisionProcessing> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   VideoPlayerController controller;
   Future<void> futureController;
+  String waitText = "Deciding your Fate";
+  Timer _timer;
 
   @override
   void initState() {
@@ -23,18 +33,64 @@ class _DecisionProcessingState extends State<DecisionProcessing> {
     controller.setVolume(1.0);
     controller.play();
     // setState(() {});
+    changeText();
+
     super.initState();
+    startTime();
+  }
+
+  changeText() {
+    _timer = new Timer(const Duration(milliseconds: 3000), () {
+      setState(() {
+        waitText = "Short Listing our options";
+      });
+    });
+    _timer = new Timer(const Duration(milliseconds: 6000), () {
+      setState(() {
+        waitText = "Almost Done";
+      });
+    });
+    _timer = new Timer(const Duration(milliseconds: 9500), () {
+      setState(() {
+        waitText = "Here are the results";
+      });
+    });
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     controller.dispose();
+    _timer.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: initScreen(context),
+    );
+  }
+
+  startTime() async {
+    var duration = new Duration(seconds: 10);
+    return new Timer(duration, route);
+  }
+
+  // waitTime() async {
+  //   var duration = new Duration(seconds: 1);
+  //   return new Timer(duration, changeText);
+  // }
+
+  route() {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DecisionResult(widget.selectedChoice),
+        ));
+  }
+
+  initScreen(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Color(0xFF7B76ED),
@@ -53,14 +109,8 @@ class _DecisionProcessingState extends State<DecisionProcessing> {
                 alignment: Alignment(-0.85, 0),
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
-                  child: Text(
-                    'FATEly',
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: Colors.white,
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: CustomNameText(
+                    fontSize: 43.0,
                   ),
                 ),
               ),
@@ -69,7 +119,7 @@ class _DecisionProcessingState extends State<DecisionProcessing> {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(3, 5, 0, 40),
                   child: Text(
-                    'Your decision maker',
+                    "Your decision maker",
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       color: Colors.white,
@@ -108,8 +158,8 @@ class _DecisionProcessingState extends State<DecisionProcessing> {
                                 );
                               } else {
                                 return Center(
-                                  // child: CircularProgressIndicator(),
-                                );
+                                    // child: CircularProgressIndicator(),
+                                    );
                               }
                             },
                           ),
@@ -120,7 +170,7 @@ class _DecisionProcessingState extends State<DecisionProcessing> {
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(0, 0, 0, 32),
                           child: Text(
-                            'Deciding your fate',
+                            waitText,
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               color: Color(0xFF717171),

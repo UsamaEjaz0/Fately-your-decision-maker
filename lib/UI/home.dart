@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:haha_decision_maker/Dialogs/dialog_option.dart';
 import 'package:haha_decision_maker/Models/choice_model.dart';
@@ -22,10 +24,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   final key = GlobalKey<AnimatedListState>();
   int optionCount = 1;
   final items = List.from([]);
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -53,143 +55,160 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               color: purpleColor,
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        SizeConfig.safeBlockHorizontal * 7,
-                        SizeConfig.safeBlockVertical * 4,
-                        0,
-                        0),
-                    child: CustomNameText(
-                      fontSize: 43.0,
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        SizeConfig.safeBlockHorizontal * 7, 0, 0, 0),
-                    child: Text(
-                      'Your decision maker',
-                      style: TextStyle(
-                          fontFamily: "Montserrat",
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 20.0,
-                          color: whiteColor),
-                    ),
-                  ),
-                ),
-                Stack(
+                Column(
                   children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        SizedBox(
-                          width: SizeConfig.safeBlockHorizontal * 3.5,
-                          height: SizeConfig.safeBlockVertical * 4.34,
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            SizeConfig.safeBlockHorizontal * 7,
+                            SizeConfig.safeBlockVertical * 4,
+                            0,
+                            0),
+                        child: CustomNameText(
+                          fontSize: 43.0,
                         ),
-                        Stack(
-                          children: [
-                            Align(
-                              alignment: Alignment(0, 0),
-                              child: Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                    SizeConfig.safeBlockHorizontal * 8.5,
-                                    SizeConfig.safeBlockVertical * 1,
-                                    0,
-                                    0),
-                                child: Container(
-                                  width: SizeConfig.safeBlockHorizontal * 60,
-                                  height: SizeConfig.safeBlockVertical * 3.34,
-                                  decoration: BoxDecoration(
-                                    color: whiteColor,
-                                    borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(15),
-                                      bottomRight: Radius.circular(0),
-                                      topLeft: Radius.circular(15),
-                                      topRight: Radius.circular(15),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: SizeConfig.safeBlockHorizontal * 68.4,
-                              height: SizeConfig.safeBlockVertical * 4.34,
-                              decoration: BoxDecoration(
-                                color: purpleColor,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            )
-                          ],
-                        ),
-                        Container(
-                          width: SizeConfig.safeBlockHorizontal * 25.5,
-                          height: SizeConfig.safeBlockVertical * 4.34,
-                          decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(0),
-                              bottomRight: Radius.circular(0),
-                              topLeft: Radius.circular(8),
-                              topRight: Radius.circular(8),
-                            ),
-                          ),
-                          child: Center(
-                              child: Text(
-                            "Options",
-                            style: TextStyle(
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            SizeConfig.safeBlockHorizontal * 7, 0, 0, 0),
+                        child: Text(
+                          'Your decision maker',
+                          style: TextStyle(
                               fontFamily: "Montserrat",
                               fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 13.0,
-                              color: darkGreyColor,
-                            ),
-                          )),
-                        )
-                      ],
+                              fontWeight: FontWeight.normal,
+                              fontSize: 20.0,
+                              color: whiteColor),
+                        ),
+                      ),
                     ),
                   ],
                 ),
-                Container(
-                  width: SizeConfig.safeBlockHorizontal * 95,
-                  height: SizeConfig.safeBlockVertical * 65,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(12),
-                      bottomRight: Radius.circular(12),
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(0),
+                Column(
+                  children: [
+                    Stack(
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            SizedBox(
+                              width: SizeConfig.safeBlockHorizontal * 3.5,
+                              height: SizeConfig.safeBlockVertical * 4.34,
+                            ),
+                            Stack(
+                              children: [
+                                Align(
+                                  alignment: Alignment(0, 0),
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(
+                                        SizeConfig.safeBlockHorizontal * 8.5,
+                                        SizeConfig.safeBlockVertical * 1,
+                                        0,
+                                        0),
+                                    child: Container(
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 60,
+                                      height:
+                                          SizeConfig.safeBlockVertical * 3.34,
+                                      decoration: BoxDecoration(
+                                        color: whiteColor,
+                                        borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(15),
+                                          bottomRight: Radius.circular(0),
+                                          topLeft: Radius.circular(15),
+                                          topRight: Radius.circular(15),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: SizeConfig.safeBlockHorizontal * 68.4,
+                                  height: SizeConfig.safeBlockVertical * 4.34,
+                                  decoration: BoxDecoration(
+                                    color: purpleColor,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Container(
+                              width: SizeConfig.safeBlockHorizontal * 25.5,
+                              height: SizeConfig.safeBlockVertical * 4.34,
+                              decoration: BoxDecoration(
+                                color: whiteColor,
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(0),
+                                  bottomRight: Radius.circular(0),
+                                  topLeft: Radius.circular(8),
+                                  topRight: Radius.circular(8),
+                                ),
+                              ),
+                              child: Center(
+                                  child: Text(
+                                "Choices",
+                                style: TextStyle(
+                                  fontFamily: "Montserrat",
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14.0,
+                                  color: darkGreyColor,
+                                ),
+                              )),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
-                  child: Column(children: [
-                    Expanded(
-                      child: AnimatedList(
-                        key: key,
-                        initialItemCount: items.length,
-                        itemBuilder: (context, index, animation) =>
-                            buildItem(items[index], index, animation),
+                    Container(
+                      width: SizeConfig.safeBlockHorizontal * 95,
+                      height: SizeConfig.safeBlockVertical * 65,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(12),
+                          bottomRight: Radius.circular(12),
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(0),
+                        ),
                       ),
-                    )
-                  ]),
+                      child: Column(children: [
+                        Expanded(
+                          child: AnimatedList(
+                            key: key,
+                            initialItemCount: items.length,
+                            itemBuilder: (context, index, animation) =>
+                                buildItem(items[index], index, animation),
+                          ),
+                        )
+                      ]),
+                    ),
+                  ],
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(
-                      0, SizeConfig.safeBlockVertical * 1.5, 0, 0),
+                      0, SizeConfig.safeBlockVertical * 1.5, 0, 10),
                   child: CustomButton(
                     "Decide Your Fate",
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => DecisionProcessing()),
-                      );
-                    },
+                    onTap: items.isEmpty
+                        ? () {}
+                        : () {
+                            var random = new Random();
+                            var i = random.nextInt(items.length);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      DecisionProcessing(items[i])),
+                            );
+                          },
                   ),
                 )
               ],
