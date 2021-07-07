@@ -11,6 +11,9 @@ import 'package:haha_decision_maker/Widgets/custom_decide_button.dart';
 import 'package:haha_decision_maker/Widgets/custom_name_text.dart';
 
 import 'decision_processing.dart';
+import 'package:another_flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:another_flushbar/flushbar_route.dart';
 
 class HomePageWidget extends StatefulWidget {
   HomePageWidget({Key key}) : super(key: key);
@@ -197,8 +200,27 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       0, SizeConfig.safeBlockVertical * 1.5, 0, 10),
                   child: CustomButton(
                     "Decide Your Fate",
-                    onTap: items.isEmpty
-                        ? () {}
+                    onTap: items.length < 2
+                        ? () {
+                            Flushbar(
+                              messageText: Text(
+                                "Add Atleast two choices to make a decision",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: "Montserrat",
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14.0,
+                                  color: whiteColor,
+                                ),
+                              ),
+                              duration: Duration(seconds: 2),
+                              flushbarStyle: FlushbarStyle.FLOATING,
+                              margin: EdgeInsets.all(90),
+                              borderRadius: BorderRadius.circular(8),
+                              backgroundColor: purpleColor,
+                            )..show(context);
+                          }
                         : () {
                             var random = new Random();
                             var i = random.nextInt(items.length);
