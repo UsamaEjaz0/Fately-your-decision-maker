@@ -14,6 +14,7 @@ class DecisionProcessing extends StatefulWidget {
   BannerAd decisionProcessingBannerAd;
   bool isDecisionProcessingBannerAdReady = false;
 
+
   DecisionProcessing(this.selectedChoice, this.decisionProcessingBannerAd, this.isDecisionProcessingBannerAdReady);
 
 
@@ -28,6 +29,37 @@ class _DecisionProcessingState extends State<DecisionProcessing> {
   String waitText = "Deciding your Fate";
   Timer _timer;
 
+  InterstitialAd _interstitialAd;
+  bool _isInterstitialAdReady = false;
+
+  void _loadInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: AdHelper.interstitialAdUnitId,
+      request: AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          this._interstitialAd = ad;
+
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DecisionResult(widget.selectedChoice),
+                  )
+              );
+            },
+          );
+
+          _isInterstitialAdReady = true;
+        },
+        onAdFailedToLoad: (err) {
+          print('Failed to load an interstitial ad: ${err.message}');
+          _isInterstitialAdReady = false;
+        },
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -41,6 +73,8 @@ class _DecisionProcessingState extends State<DecisionProcessing> {
     changeText();
     super.initState();
     startTime();
+
+    _loadInterstitialAd();
   }
 
   changeText() {
@@ -88,12 +122,17 @@ class _DecisionProcessingState extends State<DecisionProcessing> {
   // }
 
   route() {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => DecisionResult(widget.selectedChoice),
-        )
-    );
+    if (_isInterstitialAdReady) {
+      _interstitialAd?.show();
+    } else {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DecisionResult(widget.selectedChoice),
+          )
+      );
+    }
+
   }
 
   initScreen(BuildContext context) {
