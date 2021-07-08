@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:haha_decision_maker/Dialogs/dialog_option.dart';
 import 'package:haha_decision_maker/Models/choice_model.dart';
+import 'package:haha_decision_maker/Utils/ad_helper.dart';
 import 'package:haha_decision_maker/Utils/app_config.dart';
 import 'package:haha_decision_maker/Widgets/custom_decide_button.dart';
 import 'package:haha_decision_maker/Widgets/custom_name_text.dart';
@@ -10,7 +12,9 @@ import 'home.dart';
 
 class DecisionResult extends StatefulWidget {
   final Choice selectedChoice;
-  const DecisionResult(this.selectedChoice);
+
+
+  DecisionResult(this.selectedChoice);
 
   @override
   _DecisionResultState createState() => _DecisionResultState();
@@ -19,6 +23,37 @@ class DecisionResult extends StatefulWidget {
 class _DecisionResultState extends State<DecisionResult> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  BannerAd decisionResultBannerAd;
+  bool isDecisionResultBannerAdReady = false;
+
+  @override
+  void dispose() {
+    decisionResultBannerAd.dispose();
+    super.dispose();
+  }
+  @override
+  void initState() {
+    decisionResultBannerAd = BannerAd(
+      adUnitId: AdHelper.decisionResultBannerAdUnitId,
+      request: AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            isDecisionResultBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          isDecisionResultBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+
+    decisionResultBannerAd.load();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -222,11 +257,11 @@ class _DecisionResultState extends State<DecisionResult> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(
+                  padding: EdgeInsets.fromLTRB(
                     12,
-                    15,
+                    SizeConfig.safeBlockVertical * 22,
                     12,
-                    15,
+                    0,
                   ),
                   child: CustomButton(
                     'Take another decision',
@@ -238,7 +273,16 @@ class _DecisionResultState extends State<DecisionResult> {
                       );
                     },
                   ),
-                )
+                ),
+                if (isDecisionResultBannerAdReady)
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      width: decisionResultBannerAd.size.width.toDouble(),
+                      height: decisionResultBannerAd.size.height.toDouble(),
+                      child: AdWidget(ad: decisionResultBannerAd),
+                    ),
+                  ),
               ],
             ),
           ),

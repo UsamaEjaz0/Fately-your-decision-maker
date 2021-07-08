@@ -1,16 +1,21 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:haha_decision_maker/Models/choice_model.dart';
 import 'package:haha_decision_maker/UI/decision_result.dart';
 import 'package:haha_decision_maker/Widgets/custom_name_text.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:haha_decision_maker/Utils/ad_helper.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class DecisionProcessing extends StatefulWidget {
   final Choice selectedChoice;
-  const DecisionProcessing(this.selectedChoice);
+  BannerAd decisionProcessingBannerAd;
+  bool isDecisionProcessingBannerAdReady = false;
+
+  DecisionProcessing(this.selectedChoice, this.decisionProcessingBannerAd, this.isDecisionProcessingBannerAdReady);
+
 
   @override
   _DecisionProcessingState createState() => _DecisionProcessingState();
@@ -23,6 +28,7 @@ class _DecisionProcessingState extends State<DecisionProcessing> {
   String waitText = "Deciding your Fate";
   Timer _timer;
 
+
   @override
   void initState() {
     controller = VideoPlayerController.asset(
@@ -32,9 +38,7 @@ class _DecisionProcessingState extends State<DecisionProcessing> {
     controller.setLooping(true);
     controller.setVolume(1.0);
     controller.play();
-    // setState(() {});
     changeText();
-
     super.initState();
     startTime();
   }
@@ -42,7 +46,7 @@ class _DecisionProcessingState extends State<DecisionProcessing> {
   changeText() {
     _timer = new Timer(const Duration(milliseconds: 3000), () {
       setState(() {
-        waitText = "Short Listing our options";
+        waitText = "Short listing our options";
       });
     });
     _timer = new Timer(const Duration(milliseconds: 6000), () {
@@ -62,6 +66,7 @@ class _DecisionProcessingState extends State<DecisionProcessing> {
     // TODO: implement dispose
     controller.dispose();
     _timer.cancel();
+    widget.decisionProcessingBannerAd.dispose();
     super.dispose();
   }
 
@@ -87,7 +92,8 @@ class _DecisionProcessingState extends State<DecisionProcessing> {
         context,
         MaterialPageRoute(
           builder: (context) => DecisionResult(widget.selectedChoice),
-        ));
+        )
+    );
   }
 
   initScreen(BuildContext context) {
@@ -187,7 +193,16 @@ class _DecisionProcessingState extends State<DecisionProcessing> {
               SpinKitThreeBounce(
                 color: Colors.white,
                 size: 30.0,
-              )
+              ),
+              if (widget.isDecisionProcessingBannerAdReady)
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: widget.decisionProcessingBannerAd.size.width.toDouble(),
+                    height: widget.decisionProcessingBannerAd.size.height.toDouble(),
+                    child: AdWidget(ad: widget.decisionProcessingBannerAd),
+                  ),
+                ),
             ],
           ),
         ),
